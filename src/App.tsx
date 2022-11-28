@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  const [number, setNumber] = useState<any>();
+  const [numbers, setNumbers] = useState<any>([]);
+
+  const handleSubmit = () => {
+    setNumbers((prev: any) => [...prev, number]);
+    setNumber("");
+  };
+
+  numbers.sort((a: any, b: any) => b - a);
+  const newArr = numbers.reduce((a: any, b: any) => {
+    if (typeof a[b] == "undefined") {
+      a[b] = 1;
+    } else {
+      a[b] += 1;
+    }
+    return a;
+  }, {});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input
+        type="number"
+        value={number}
+        onChange={(e: any) => setNumber(e.target.value)}
+      />
+      <button onClick={handleSubmit}>Add</button>
+      <p>Mảng: {JSON.stringify(numbers)}</p>
+      <p>{JSON.stringify(newArr)}</p>
     </div>
   );
 }
