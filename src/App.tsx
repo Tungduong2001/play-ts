@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="container">
-      <p>{number.map((item) => `${item},`)}</p>
+      <p>{number.join(", ")}</p>
     </div>
   );
 }
