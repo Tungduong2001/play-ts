@@ -3,34 +3,26 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [number, setNumber] = useState<any>();
-  const [numbers, setNumbers] = useState<any>([]);
-
+  const [text, setText] = useState<any>("");
+  const [texts, setTexts] = useState<any>([]);
   const handleSubmit = () => {
-    setNumbers((prev: any) => [...prev, number]);
-    setNumber("");
+    setTexts((prev: any) => {
+      const newText = text;
+      const jsonText = JSON.parse(newText);
+      const objectFlip = Object.fromEntries(
+        Object.entries(jsonText).map((a) => a.reverse())
+      );
+      console.log(objectFlip);
+      return newText;
+    });
+    setText("");
   };
 
-  numbers.sort((a: any, b: any) => b - a);
-  const newArr = numbers.reduce((a: any, b: any) => {
-    if (typeof a[b] == "undefined") {
-      a[b] = 1;
-    } else {
-      a[b] += 1;
-    }
-    return a;
-  }, {});
-
   return (
-    <div>
-      <input
-        type="number"
-        value={number}
-        onChange={(e: any) => setNumber(e.target.value)}
-      />
-      <button onClick={handleSubmit}>Add</button>
-      <p>Mảng: {JSON.stringify(numbers)}</p>
-      <p>{JSON.stringify(newArr)}</p>
+    <div className="container">
+      <input value={text} onChange={(e: any) => setText(e.target.value)} />
+      <br />
+      <button onClick={handleSubmit}>Click</button>
     </div>
   );
 }
