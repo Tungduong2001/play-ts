@@ -3,23 +3,16 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [hours, setHours] = useState<any[]>([]);
-  for (let index = 1; index <= 24; index++) {
-    for (let j = 0; j <= 50; j += 10) {
-      hours.push(index + ":" + j);
+  const [number, setNumber] = useState<any[]>([]);
+  for (let index = 10; index <= 200; index++) {
+    if (index % 7 == 0 && index % 5 != 0) {
+      number.push(index);
     }
   }
 
   return (
     <div className="container">
-      <p>chọn giờ</p>
-      <select name="" id="">
-        {hours.map((item: any) => (
-          <option key={item} value="">
-            {item}
-          </option>
-        ))}
-      </select>
+      <p>{number.map((item) => `${item},`)}</p>
     </div>
   );
 }
