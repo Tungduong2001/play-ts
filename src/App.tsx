@@ -3,28 +3,29 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [text, setText] = useState<any>("");
-  const [texts, setTexts] = useState<any>([]);
-  const handleSubmit = () => {
-    setTexts((prev: any) => {
-      const newText = text;
-      const jsonText = JSON.parse(newText);
-      const objectFlip = Object.fromEntries(
-        Object.entries(jsonText).map((a) => a.reverse())
-      );
-      console.log(objectFlip);
-      return newText;
-    });
-    setText("");
-  };
+  let objects = [
+    { x: 1, y: 2 },
+    { x: 2, y: 1 },
+  ];
 
-  return (
-    <div className="container">
-      <input value={text} onChange={(e: any) => setText(e.target.value)} />
-      <br />
-      <button onClick={handleSubmit}>Click</button>
-    </div>
+  let others = [
+    { x: 1, y: 1 },
+    { x: 1, y: 2 },
+  ];
+
+  const union = [...objects, ...others];
+  const filter = union.reduce(
+    (filter: any, item) =>
+      filter.some(
+        (filterItem: any) => JSON.stringify(filterItem) === JSON.stringify(item)
+      )
+        ? filter
+        : [...filter, item],
+    []
   );
+  console.log(filter);
+
+  return <div className="container"></div>;
 }
 
 export default App;
