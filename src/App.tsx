@@ -25,7 +25,14 @@ function App() {
   );
   console.log(filter);
 
-  return <div className="container"></div>;
+  return (
+    <div className="container">
+      <p>{`var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];`}</p>
+      <p>{`var others = [{ 'x': 1, 'y': 1 }, { 'x': 1, 'y': 2 }];`}</p>
+      <p>{`Output : [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }, { 'x': 1, 'y': 1 }]`}</p>
+      Bài 12, kết quả ở console.log anh nhé :v
+    </div>
+  );
 }
 
 export default App;
