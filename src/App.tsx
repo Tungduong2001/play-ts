@@ -53,6 +53,30 @@ function App() {
     setTemplate("");
     setData("");
   };
+
+  // Bai12
+  let objects = [
+    { x: 1, y: 2 },
+    { x: 2, y: 1 },
+  ];
+
+  let others = [
+    { x: 1, y: 1 },
+    { x: 1, y: 2 },
+  ];
+
+  const union = [...objects, ...others];
+  const filter = union.reduce(
+    (filter: any, item) =>
+      filter.some(
+        (filterItem: any) => JSON.stringify(filterItem) === JSON.stringify(item)
+      )
+        ? filter
+        : [...filter, item],
+    []
+  );
+  console.log(filter);
+
   return (
     <div className="container">
       <div>
@@ -65,7 +89,6 @@ function App() {
           ))}
         </select>
       </div>
-
       <div>
         <p>Bài 4</p>
         <input
@@ -100,8 +123,14 @@ function App() {
           Giai thừa : {expression} {factorial}
         </p>
       </div>
+      <div>
+        <p>Bai12</p>
+        <p>{`var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];`}</p>
+        <p>{`var others = [{ 'x': 1, 'y': 1 }, { 'x': 1, 'y': 2 }];`}</p>
+        <p>{`Output : [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }, { 'x': 1, 'y': 1 }]`}</p>
+        Bài 12, kết quả ở console.log anh nhé :v
+      </div>
     </div>
   );
 }
-
 export default App;
