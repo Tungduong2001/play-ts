@@ -4,3 +4,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+.content {
+  border: 1px solid #ccc;
+  padding-bottom: 8px;
+}
