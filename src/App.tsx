@@ -12,6 +12,10 @@ function App() {
 
   return (
     <div className="container">
+      <p>
+        các số chia hết cho 7 nhưng không phải bội số của 5, nằm trong đoạn 10
+        và 200 (tính cả 10 và 200)
+      </p>
       <p>{number.join(", ")}</p>
     </div>
   );
