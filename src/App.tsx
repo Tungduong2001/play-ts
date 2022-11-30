@@ -3,34 +3,46 @@ import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
-  const [text, setText] = useState<any>("");
-  const [newText, setnewText] = useState();
+  const [template, setTemplate] = useState<any>("");
+  const [templates, setTemplates] = useState<any>("");
+  const [data, setData] = useState<any>("");
+  const [datas, setDatas] = useState<any>("");
 
   const onSubmit = () => {
-    setText((prev: any) => {
-      const camelize = (text: any) => {
-        const a = text
-          .toLowerCase()
-          .replace(/[-_\s.]+(.)?/g, (word: any, index: any) =>
-            index ? index.toUpperCase() : ""
-          );
-        return a.substring(0, 1).toLowerCase() + a.substring(1);
-      };
-      setnewText(camelize(text));
-      return newText;
+    setTemplates((prev: any) => {
+      const newTemplate = template;
+
+      return newTemplate;
     });
-    setText("");
+
+    setDatas((prev: any) => {
+      const newData = data;
+
+      return newData;
+    });
+    setTemplate("");
+    setData("");
   };
 
   return (
-    <div>
+    <div className="container">
       <input
         type="text"
-        value={text}
-        onChange={(e: any) => setText(e.target.value)}
+        value={`hello ${template}`}
+        onChange={(e: any) => setTemplate(e.target.value)}
       />
+      <br />
+      <input
+        type="text"
+        value={data}
+        onChange={(e: any) => setData(e.target.value)}
+      />
+      <br />
+
+      <p>Template: {templates}</p>
+      <p>Data: {datas}</p>
+      <p>{templates + " " + datas}</p>
       <button onClick={onSubmit}>Submit</button>
-      <p>Chuỗi trả về: {newText} </p>
     </div>
   );
 }
