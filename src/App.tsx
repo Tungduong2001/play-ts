@@ -56,7 +56,7 @@ function App() {
   return (
     <div className="container">
       <div>
-        <p>chọn giờ</p>
+        <p>Bài 6</p>
         <select name="" id="">
           {hours.map((item: any, index: number) => (
             <option key={index} value="">
@@ -67,6 +67,7 @@ function App() {
       </div>
 
       <div>
+        <p>Bài 4</p>
         <input
           type="text"
           value={`hello ${template}`}
@@ -86,11 +87,13 @@ function App() {
         <button onClick={onSubmit}>Submit</button>
       </div>
       <div>
+        <p>Bài 10</p>
         <input
           type="number"
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
+        <br />
         <button onClick={handleClick}>Tính</button>
 
         <p>
