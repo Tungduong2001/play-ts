@@ -3,15 +3,16 @@ import "./App.css";
 
 function App() {
   //Bai2:
-  const [numb, setNumb] = useState<any>();
+  const [numb, setNumb] = useState<any>("");
   const [numbs, setNumbs] = useState<any>([]);
 
   const clickSubmit = () => {
-    setNumbs((prev: any) => [...prev, numb]);
+    const string = numb.split(",");
+    setNumbs((prev: any) => string);
+
     setNumb("");
   };
 
-  numbs.sort((a: any, b: any) => b - a);
   const newArr = numbs.reduce((a: any, b: any) => {
     if (typeof a[b] == "undefined") {
       a[b] = 1;
@@ -20,7 +21,6 @@ function App() {
     }
     return a;
   }, {});
-
   //Bai 6
   const [hours, setHours] = useState<any[]>([]);
   for (let index = 1; index <= 24; index++) {
@@ -220,13 +220,13 @@ function App() {
   };
   return (
     <>
-      <div className="container">
+      <div className="container mx-auto">
         {/* Bai2 */}
         <div className="content">
           <p>Bai2:</p>
           <input
             className="mx-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50%] p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            type="number"
+            type="text"
             value={numb}
             onChange={(e: any) => setNumb(e.target.value)}
           />
@@ -237,7 +237,7 @@ function App() {
             Add
           </button>
           <p>Mảng: {JSON.stringify(numbs)}</p>
-          <p>{JSON.stringify(newArr)}</p>
+          <p className="mt-4">Kết quả: {JSON.stringify(newArr)}</p>
         </div>
         {/* Bai6 */}
         <div className="content">
