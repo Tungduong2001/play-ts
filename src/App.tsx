@@ -2,6 +2,25 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
+  //Bai2:
+  const [numb, setNumb] = useState<any>();
+  const [numbs, setNumbs] = useState<any>([]);
+
+  const clickSubmit = () => {
+    setNumbs((prev: any) => [...prev, numb]);
+    setNumb("");
+  };
+
+  numbs.sort((a: any, b: any) => b - a);
+  const newArr = numbs.reduce((a: any, b: any) => {
+    if (typeof a[b] == "undefined") {
+      a[b] = 1;
+    } else {
+      a[b] += 1;
+    }
+    return a;
+  }, {});
+
   //Bai 6
   const [hours, setHours] = useState<any[]>([]);
   for (let index = 1; index <= 24; index++) {
@@ -55,6 +74,7 @@ function App() {
   };
 
   // Bai12
+
   let objects = [
     { x: 1, y: 2 },
     { x: 2, y: 1 },
@@ -75,7 +95,6 @@ function App() {
         : [...filter, item],
     []
   );
-  console.log(filter);
 
   // Bai 3
   const [text, setText] = useState<any>("");
@@ -177,9 +196,21 @@ function App() {
   };
   return (
     <div className="container">
+      {/* Bai2 */}
+      <div className="content">
+        <p>Bai2:</p>
+        <input
+          type="number"
+          value={numb}
+          onChange={(e: any) => setNumb(e.target.value)}
+        />
+        <button onClick={clickSubmit}>Add</button>
+        <p>Mảng: {JSON.stringify(numbs)}</p>
+        <p>{JSON.stringify(newArr)}</p>
+      </div>
       {/* Bai6 */}
       <div className="content">
-        <p>Bài 6</p>
+        <p>Bài 6: In ra giờ cách nhau 10p vào thẻ select</p>
         <select name="" id="">
           {hours.map((item: any, index: number) => (
             <option key={index} value="">
@@ -230,7 +261,7 @@ function App() {
         <p>{`var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];`}</p>
         <p>{`var others = [{ 'x': 1, 'y': 1 }, { 'x': 1, 'y': 2 }];`}</p>
         <p>{`Output : [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }, { 'x': 1, 'y': 1 }]`}</p>
-        Bài 12, kết quả ở console.log anh nhé :v
+        <p>Kết quả: {JSON.stringify(filter)}</p>
       </div>
       {/* Bai3 */}
       <div className="content">
