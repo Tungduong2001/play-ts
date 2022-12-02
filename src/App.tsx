@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import Button from "./component/Button/Button";
 
 function App() {
   //Bai2:
@@ -21,6 +22,21 @@ function App() {
     }
     return a;
   }, {});
+
+  let arrResult: any = [];
+  const ob = Object.keys(newArr).map((item) => ({
+    key: item,
+    value: newArr[item],
+  }));
+  const ob2 = ob.sort((a: any, b: any) => b.value - a.value);
+
+  for (let i = 0; i < ob2.length; i++) {
+    const element = ob2[i];
+    arrResult = [...arrResult, element.key + ":" + element.value];
+  }
+
+  console.log(arrResult);
+
   //Bai 6
   const [hours, setHours] = useState<any[]>([]);
   for (let index = 1; index <= 24; index++) {
@@ -116,27 +132,127 @@ function App() {
     setText("");
   };
   // Bai7
-  const [cal, setCal] = useState("");
-  const [result, setResult] = useState("");
 
-  const updateCal = (e: any) => {
-    setCal(cal.concat(e.target.name));
-  };
+  const [value, setValue] = useState("0");
+  const [memory, setMemory] = useState<any>(null);
+  const [operator, setOperator] = useState<any>(null);
 
-  const clear = () => {
-    setCal("");
-    setResult("");
-  };
+  const handleButtonPress = (content: any) => () => {
+    const num = parseFloat(value);
+    if (content === "AC") {
+      setValue("0");
+      setMemory(null);
+      setOperator(null);
+      return;
+    }
+    if (content === "±") {
+      setValue((num * -1).toString());
+      return;
+    }
+    if (content === "%") {
+      setValue((num / 100).toString());
+      setMemory(null);
+      setOperator(null);
+      return;
+    }
+    if (content === ".") {
+      if (value.includes(".")) return;
+      setValue(value + ".");
+      return;
+    }
 
-  const del = () => {
-    setCal(cal.substring(0, cal.length - 1));
-  };
+    if (content === "+") {
+      if (operator !== null) {
+        if (operator === "+") {
+          setMemory(memory + parseFloat(value));
+        } else if (operator === "-") {
+          setMemory(memory - parseFloat(value));
+        } else if (operator === "×") {
+          setMemory(memory * parseFloat(value));
+        } else if (operator === "÷") {
+          setMemory(memory / parseFloat(value));
+        }
+      } else {
+        setMemory(parseFloat(value));
+      }
+      setValue("0");
+      setOperator("+");
+      return;
+    }
+    if (content === "-") {
+      if (operator !== null) {
+        if (operator === "+") {
+          setMemory(memory + parseFloat(value));
+        } else if (operator === "-") {
+          setMemory(memory - parseFloat(value));
+        } else if (operator === "×") {
+          setMemory(memory * parseFloat(value));
+        } else if (operator === "÷") {
+          setMemory(memory / parseFloat(value));
+        }
+      } else {
+        setMemory(parseFloat(value));
+      }
+      setValue("0");
+      setOperator("-");
+      return;
+    }
+    if (content === "×") {
+      if (operator !== null) {
+        if (operator === "+") {
+          setMemory(memory + parseFloat(value));
+        } else if (operator === "-") {
+          setMemory(memory - parseFloat(value));
+        } else if (operator === "×") {
+          setMemory(memory * parseFloat(value));
+        } else if (operator === "÷") {
+          setMemory(memory / parseFloat(value));
+        }
+      } else {
+        setMemory(parseFloat(value));
+      }
+      setValue("0");
+      setOperator("×");
+      return;
+    }
+    if (content === "÷") {
+      if (operator !== null) {
+        if (operator === "+") {
+          setMemory(memory + parseFloat(value));
+        } else if (operator === "-") {
+          setMemory(memory - parseFloat(value));
+        } else if (operator === "×") {
+          setMemory(memory * parseFloat(value));
+        } else if (operator === "÷") {
+          setMemory(memory / parseFloat(value));
+        }
+      } else {
+        setMemory(parseFloat(value));
+      }
+      setValue("0");
+      setOperator("÷");
+      return;
+    }
 
-  const results = () => {
-    try {
-      setResult(eval(cal).toString());
-    } catch {
-      setResult("Error");
+    if (content === "=") {
+      if (!operator) return;
+      if (operator === "+") {
+        setValue((memory + parseFloat(value)).toString());
+      } else if (operator === "-") {
+        setValue((memory - parseFloat(value)).toString());
+      } else if (operator === "×") {
+        setValue((memory * parseFloat(value)).toString());
+      } else if (operator === "÷") {
+        setValue((memory / parseFloat(value)).toString());
+      }
+      setMemory(null);
+      setOperator(null);
+      return;
+    }
+    if (value[value.length - 1] === ".") {
+      setValue(value + content);
+    } else {
+      setValue(parseFloat(num + content).toString());
     }
   };
 
@@ -223,7 +339,9 @@ function App() {
       <div className="container mx-auto">
         {/* Bai2 */}
         <div className="content">
-          <p>Bai2:</p>
+          <p className="mb-4">
+            Bai2: tạo ô input nhập mảng các số ( vd: 1,2,4,6,6,2,6 )
+          </p>
           <input
             className="mx-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[50%] p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             type="text"
@@ -237,7 +355,7 @@ function App() {
             Add
           </button>
           <p>Mảng: {JSON.stringify(numbs)}</p>
-          <p className="mt-4">Kết quả: {JSON.stringify(newArr)}</p>
+          <p className="mt-4">Kết quả: {JSON.stringify(arrResult)}</p>
         </div>
         {/* Bai6 */}
         <div className="content">
@@ -413,224 +531,64 @@ function App() {
       </div>
       {/* Bai 7 */}
       <p className="text-center mt-7">Bài 7</p>
-      <div className="mx-auto overflow-hidden mt-10 shadow-lg mb-2 bg-[#000000] border rounded-lg lg:w-2/6 md:w-3/6 sm:w-4/6">
-        <div className="">
-          <div className="p-5 text-white text-center text-3xl bg-[#04387A]-900">
-            Calculator
-          </div>
-          <div className="pt-8  p-5 pb-0 text-white text-right text-3xl bg-[#000000]">
-            {cal || 0}
-          </div>
-          <div className="p-5 text-white text-right text-3xl bg-[#000000]">
-            <span className="text-orange-500">{result || ""}</span>
-          </div>
-
-          <div className="flex items-stretch bg-[#000000] h-24">
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                onClick={del}
-              >
-                DEL
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-[#505050] justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="("
-                onClick={updateCal}
-              >
-                (
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-[#505050] justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name=")"
-                onClick={updateCal}
-              >
-                )
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-orange-500 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="/"
-                onClick={updateCal}
-              >
-                ÷
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-stretch bg-[#000000] h-24">
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="7"
-                onClick={updateCal}
-              >
-                7
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="8"
-                onClick={updateCal}
-              >
-                8
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="9"
-                onClick={updateCal}
-              >
-                9
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-orange-500 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="*"
-                onClick={updateCal}
-              >
-                ×
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-stretch bg-[#000000] h-24">
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="4"
-                onClick={updateCal}
-              >
-                4
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="5"
-                onClick={updateCal}
-              >
-                5
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="6"
-                onClick={updateCal}
-              >
-                6
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-orange-500 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="-"
-                onClick={updateCal}
-              >
-                -
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-stretch bg-[#000000] h-24">
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="1"
-                onClick={updateCal}
-              >
-                1
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="2"
-                onClick={updateCal}
-              >
-                2
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="3"
-                onClick={updateCal}
-              >
-                3
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-orange-500 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="+"
-                onClick={updateCal}
-              >
-                +
-              </button>
-            </div>
-          </div>
-
-          <div className="flex items-stretch bg-[#000000] h-24 mb-4">
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                onClick={clear}
-              >
-                AC
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="0"
-                onClick={updateCal}
-              >
-                0
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-gray-800 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                name="."
-                onClick={updateCal}
-              >
-                .
-              </button>
-            </div>
-
-            <div className="flex-1 px-2 py-2 justify-center flex items-center text-white text-2xl font-semibold">
-              <button
-                className="rounded-full h-20 w-20 flex items-center bg-orange-500 justify-center shadow-lg hover:border-gray-500 focus:outline-none"
-                onClick={results}
-              >
-                =
-              </button>
-            </div>
-          </div>
+      <div className="App">
+        <div className="display">
+          {value == "0"
+            ? value
+            : Math.round((Number(value) + Number.EPSILON) * 100) / 100}
+        </div>
+        <div className="buttons">
+          <Button
+            onButtonClick={handleButtonPress}
+            content="AC"
+            type="function"
+          />
+          <Button
+            onButtonClick={handleButtonPress}
+            content="±"
+            type="function"
+          />
+          <Button
+            onButtonClick={handleButtonPress}
+            content="%"
+            type="function"
+          />
+          <Button
+            onButtonClick={handleButtonPress}
+            content="÷"
+            type="operator"
+          />
+          <Button onButtonClick={handleButtonPress} content="7" />
+          <Button onButtonClick={handleButtonPress} content="8" />
+          <Button onButtonClick={handleButtonPress} content="9" />
+          <Button
+            onButtonClick={handleButtonPress}
+            content="×"
+            type="operator"
+          />
+          <Button onButtonClick={handleButtonPress} content="4" />
+          <Button onButtonClick={handleButtonPress} content="5" />
+          <Button onButtonClick={handleButtonPress} content="6" />
+          <Button
+            onButtonClick={handleButtonPress}
+            content="-"
+            type="operator"
+          />
+          <Button onButtonClick={handleButtonPress} content="1" />
+          <Button onButtonClick={handleButtonPress} content="2" />
+          <Button onButtonClick={handleButtonPress} content="3" />
+          <Button
+            onButtonClick={handleButtonPress}
+            content="+"
+            type="operator"
+          />
+          <Button onButtonClick={handleButtonPress} content="0" />
+          <Button onButtonClick={handleButtonPress} content="." />
+          <Button
+            onButtonClick={handleButtonPress}
+            content="="
+            type="operator"
+          />
         </div>
       </div>
     </>

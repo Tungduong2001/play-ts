@@ -9,3 +9,71 @@
   border: 1px solid #ccc;
   padding-bottom: 8px;
 }
+
+.Button {
+  align-items: center;
+  background: #333;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  font-size: 45px;
+  height: 110px;
+  justify-content: center;
+  width: 110px;
+  transition: filter 0.3s ease-in;
+}
+
+.Button:active,
+.Button:focus {
+  filter: brightness(120%);
+}
+
+.Button.zero {
+  width: 250px;
+  grid-column: 1 / span 2;
+  border-radius: 57.5px;
+  position: relative;
+  justify-content: flex-start;
+  padding-left: 43px;
+}
+
+.Button.function {
+  color: black;
+  background: #a5a5a5;
+}
+
+.Button.operator {
+  background: #f1a33c;
+}
+
+.App {
+  background: black;
+  border-radius: 50px;
+  color: white;
+  height: 900px;
+  padding: 20px;
+  position: relative;
+  width: 563px;
+  margin: auto;
+}
+
+.top {
+  display: flex;
+  height: 250px;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.display {
+  font-size: 130px;
+  font-weight: 300;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.buttons {
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
